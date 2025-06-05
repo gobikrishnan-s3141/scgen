@@ -54,6 +54,34 @@ or install the development version via pip:
 pip install git+https://github.com/theislab/scgen.git
 ```
 
+### Installation with conda
+
+To install scGen with conda:
+
+```bash
+conda env create -f environment.yml
+```
+
+Then, activate conda environemnt:
+
+```bash
+conda activate scgen
+```
+
+### Installation with Docker
+
+To install and use scGen via Docker:
+
+```bash
+sudo docker build -t scgen .
+```
+
+And, run the docker container:
+
+```bash
+sudo docker run --rm -ti scgen
+```
+
 ## Examples
 
 See examples at our [documentation site](https://scgen.readthedocs.io/).
