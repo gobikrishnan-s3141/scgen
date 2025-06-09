@@ -5,7 +5,8 @@ from scgen import SCGEN
 
 
 def test_scgen():
-    adata = scvi.data.synthetic_iid()
+    adata = sc.datasets.pbmc3k()
+    # adata = scvi.data.synthetic_iid()
     SCGEN.setup_anndata(
         adata,
         batch_key="batch",
