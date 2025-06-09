@@ -1,12 +1,10 @@
 import scanpy as sc
-#import scvi
 
 from scgen import SCGEN
 
 
 def test_scgen():
     adata = sc.datasets.pbmc3k()
-    # adata = scvi.data.synthetic_iid()
     SCGEN.setup_anndata(
         adata,
         batch_key="batch",
