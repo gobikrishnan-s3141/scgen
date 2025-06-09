@@ -31,10 +31,7 @@ WORKDIR $SCGEN_HOME
 COPY --chown=$USERNAME:$USERNAME . .
 
 # create conda env
-RUN conda env create -f environment.yml
-
-# python shell
-SHELL ["conda", "run", "-n", "scgen", "/bin/bash", "-c"]
+RUN conda create -n scgen python=3.12 && conda run -n scgen pip install .
 
 # jupyter notebook
 EXPOSE 8888
