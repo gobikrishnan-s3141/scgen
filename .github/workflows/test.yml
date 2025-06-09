@@ -14,39 +14,42 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.9", "3.11", "3.12"]
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
 
     steps:
       - uses: actions/checkout@v4
+
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Cache pip
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
+          cache: 'pip' # This enables caching automatically for pip
+
       - name: Install dependencies
         run: |
-          pip install --upgrade pytest-cov
-          pip install --upgrade .[dev]
+          # Install development dependencies and the package itself
+          pip install .[dev]
+          pip install pytest-cov black flake8
+
       - name: Lint with flake8
-        run: flake8
-      - name: Format with black
-        run: |
-          pip install "black[jupyter]"
-          black --check .
-      - name: Test with pytest
-        run: pytest --cov-report=xml --cov=mypackage
-      - name: Upload coverage to GitHub Actions
+        run: flake8 .
+
+      - name: Format check with black
+        run: black --check .
+
+      - name: Test with pytest and collect coverage
+        run: pytest --cov-report=xml --cov=scgen # Changed 'mypackage' to 'scgen' assuming 'scgen' is your package name
+
+      - name: Upload coverage report
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-report
+          name: coverage-report-${{ matrix.python-version }}
           path: coverage.xml
-      - name: After success
-        run: |
-          bash <(curl -s https://codecov.io/bash)
-          pip list
+
+      - name: Upload coverage to Codecov
+        if: success() # Only upload if tests passed
+        run: bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }} # Assuming you have a Codecov token
+
+      - name: List installed packages (debug)
+        if: always() # Always run this step for debugging purposes
+        run: pip list
