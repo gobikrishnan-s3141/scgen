@@ -36,4 +36,4 @@ RUN conda create -n scgen python=3.12 && conda run -n scgen pip install .
 # jupyter notebook
 EXPOSE 8888
 #CMD ["jupyter", "notebook", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root"]
-CMD ["python", "test/test_scgen.py"]
+CMD ["python", "tests/test_scgen.py"]
