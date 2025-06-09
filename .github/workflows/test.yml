@@ -31,8 +31,8 @@ jobs:
             ${{ runner.os }}-pip-
       - name: Install dependencies
         run: |
-          pip install pytest-cov
-          pip install .[dev]
+          pip install --upgrade pytest-cov
+          pip install --upgrade .[dev]
       - name: Lint with flake8
         run: flake8
       - name: Format with black
