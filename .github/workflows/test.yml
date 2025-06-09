@@ -36,7 +36,9 @@ jobs:
       - name: Lint with flake8
         run: flake8
       - name: Format with black
-        run: black --check .
+        run: |
+          pip install "black[jupyter]"
+          black --check .
       - name: Test with pytest
         run: pytest --cov-report=xml --cov=mypackage
       - name: Upload coverage to GitHub Actions
