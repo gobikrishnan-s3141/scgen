@@ -1,10 +1,9 @@
 import scanpy as sc
-
+import scvi
 from scgen import SCGEN
 
-
 def test_scgen():
-    adata = sc.datasets.pbmc3k()
+    adata = scvi.data.pbmc_dataset()
     SCGEN.setup_anndata(
         adata,
         batch_key="batch",
