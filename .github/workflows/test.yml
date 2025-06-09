@@ -23,7 +23,7 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-          cache: 'pip' # This enables caching automatically for pip
+          cache: 'pip'
 
       - name: Install dependencies
         run: |
@@ -38,7 +38,7 @@ jobs:
         run: black --check .
 
       - name: Test with pytest and collect coverage
-        run: pytest --cov-report=xml --cov=scgen # Changed 'mypackage' to 'scgen' assuming 'scgen' is your package name
+        run: pytest --cov-report=xml --cov=scgen
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v4
@@ -47,9 +47,9 @@ jobs:
           path: coverage.xml
 
       - name: Upload coverage to Codecov
-        if: success() # Only upload if tests passed
-        run: bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }} # Assuming you have a Codecov token
+        if: success()
+        run: bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }}
 
       - name: List installed packages (debug)
-        if: always() # Always run this step for debugging purposes
+        if: always()
         run: pip list
